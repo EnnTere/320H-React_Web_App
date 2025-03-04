@@ -54,19 +54,13 @@ export default function Cards() {
   const [cards, setCards] = useState([]);
 
   // GET
-
-
-
-
-
-
   useEffect(() => {
     const fetchCards = async () => {
       try {
         const response = await fetch(setTestURL);
         const data = await response.json();
-        console.log(data.data);
-        setCards(data.data[0]);
+        console.log(data.data.slice(0, 15)); // temp solution for retrieving 15
+        setCards(data.data.slice(0, 15));
       } catch (err) {
         console.log(err);
       }
@@ -80,11 +74,9 @@ export default function Cards() {
   return (
     <article>
       <h2>Pack Contents</h2>
-
       {cards.map((card) => {
         const {
           id,
-          image_uri,
           name,
           type_line,
           mana_cost,
@@ -94,16 +86,43 @@ export default function Cards() {
           power,
           toughness,
           rarity,
-          scryfall_uri
+          scryfall_uri,
+          image_uris: { small, normal, large },
         } = card;
+
+        {
+          /* {cards.map(
+          (
+            {
+              id,
+              name,
+              type_line,
+              mana_cost,
+              cmc,
+              color_identity,
+              colors,
+              power,
+              toughness,
+              rarity,
+              scryfall_uri,
+              image_uri,
+              image_uri: { small, normal, large } 
+            },
+            card
+          ) => { */
+        }
 
         return (
           <div>
             <div>
               <ul>
-                <li key='${id}'>
-                  <a href='${scryfall_uri}' target="_blank">
-                    <img src='${image_uri.normal}' className="logo" alt='A Magic: The Gathering trading card of ${name}' />
+                <li key={id}>
+                  <a href={scryfall_uri} target="_blank">
+                    <img
+                      src={normal}
+                      className="logo"
+                      alt={"A Magic: The Gathering trading card of " + name}
+                    />
                   </a>
                 </li>
               </ul>
@@ -112,17 +131,17 @@ export default function Cards() {
             <br />
 
             <div className="card">
-              <button></button>
-              {/* <button onClick={() => setCount((count) => count + 1)}>
+              {/*<button></button>
+              <button onClick={() => setCount((count) => count + 1)}>
             count is {count}
             </button> */}
-              <p>Test</p>
+              <p>{name}</p>
             </div>
 
             <br />
 
             <p className="read-the-docs">
-              Click on the Vite and React logos to learn more
+              Click on the card to learn more
             </p>
           </div>
         );
