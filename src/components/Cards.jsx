@@ -72,26 +72,27 @@ export default function Cards() {
   }, []);
 
   return (
-    <article>
+    <article >
       <h2>Pack Contents</h2>
-      {cards.map((card) => {
-        const {
-          id,
-          name,
-          type_line,
-          mana_cost,
-          cmc,
-          color_identity,
-          colors,
-          power,
-          toughness,
-          rarity,
-          scryfall_uri,
-          image_uris: { small, normal, large },
-        } = card;
+      <div className="flex-container">
+        {cards.map((card) => {
+          const {
+            id,
+            name,
+            type_line,
+            mana_cost,
+            cmc,
+            color_identity,
+            colors,
+            power,
+            toughness,
+            rarity,
+            scryfall_uri,
+            image_uris: { small, normal, large },
+          } = card;
 
-        {
-          /* {cards.map(
+          {
+            /* {cards.map(
           (
             {
               id,
@@ -110,43 +111,22 @@ export default function Cards() {
             },
             card
           ) => { */
-        }
+          }
 
-        return (
-          <div>
-            <div>
-              <ul>
-                <li key={id}>
-                  <a href={scryfall_uri} target="_blank">
-                    <img
-                      src={normal}
-                      className="logo"
-                      alt={"A Magic: The Gathering trading card of " + name}
-                    />
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <br />
-
-            <div className="card">
-              {/*<button></button>
-              <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-            </button> */}
-              <p>{name}</p>
-            </div>
-
-            <br />
-
-            <p className="read-the-docs">
-              Click on the card to learn more
-            </p>
-          </div>
-        );
-      })}
-      ;
+          return (
+              <li key={id}>
+                <a href={scryfall_uri} target="_blank">
+                  <img
+                    src={normal}
+                    className="logo"
+                    alt={"A Magic: The Gathering trading card of " + name}
+                  />
+                </a>
+              </li>
+          );
+        })}
+        ;
+      </div>
     </article>
   );
 }
