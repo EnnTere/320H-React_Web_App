@@ -22,6 +22,13 @@
 6. Added Inverse Data Flow?
 
 
+
+~~~~~~~~~~ Future ~~~~~~~~~~
+
+- Would like to try the Scryfall API wrapper
+https://www.npmjs.com/package/scryfall-client
+
+
 ~~~~~~~~~~ Resources ~~~~~~~~~~
 
 Components
