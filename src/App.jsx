@@ -1,7 +1,11 @@
 import { useState } from "react";
+import "./App.css";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import "./App.css";
+
+import Packs from "./components/Packs";
+import Cards from "./components/Cards";
+import CardDetails from "./components/CardDetails";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -11,26 +15,10 @@ function App() {
       <section className="page-container">
         <h1>Magic Sim 2.0</h1>
 
-        <div>
-          <a href="https://vite.dev" target="_blank">
-            <img src={viteLogo} className="logo" alt="Vite logo" />
-          </a>
-          <a href="https://react.dev" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
-
-        <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
-          <p>Test</p>
-        </div>
-
-        <p className="read-the-docs">
-          Click on the Vite and React logos to learn more
-        </p>
-      </section>
+        <Packs />
+        <Cards />
+        <CardDetails />
+      </section> 
     </div>
   );
 }
