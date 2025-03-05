@@ -34,6 +34,9 @@
 ## Sources & Resources
 ### * = most utilized resources
 
+**React - All Topics**
+- * https://react.dev/reference
+
 **Components**
 - * https://www.reddit.com/r/reactjs/comments/ny2msc/when_should_you_make_a_separate_component/
 
@@ -46,24 +49,37 @@
 - https://www.freecodecamp.org/news/react-props-cheatsheet/
 - https://www.freecodecamp.org/news/how-to-use-props-in-react/
 
+**Router**
+- https://reactrouter.com/tutorials/address-book & https://www.youtube.com/watch?v=pw8FAg07kdo
+  - Had implemented the changes to `main.jsx` and before I realized this was a remix specific resource. Left it to experiemnt with the change.
+
+
 **State**
-- https://www.w3schools.com/react/react_state.asp
 - https://react.dev/learn/state-a-components-memory
+- https://dev.to/clickpesa/react-manage-state-using-context-api-with-usestate-or-usereducer-hooks-d5l
+- https://www.w3schools.com/react/react_state.asp
+
 
 **Scryfall API**
 - * https://scryfall.com/docs/api
 - https://www.reddit.com/r/magicTCG/comments/rg0v4p/scryfall_api_question/
 - https://stackoverflow.com/questions/74738673/take-selected-text-send-it-over-to-scryfall-api-then-take-the-link-and-put-it
 - https://www.reddit.com/r/magicTCG/comments/j51maa/help_with_simple_scryfall_api_call/
+- https://www.reddit.com/r/magicTCG/comments/vzqd3o/scryfall_api_help/
 
 **Organization**
 - * https://dev.to/itswillt/folder-structures-in-react-projects-3dp8
 - * https://www.geeksforgeeks.org/folder-structure-for-a-react-js-project/
+- https://stackoverflow.com/questions/62277013/fetch-data-from-an-api-in-useeffect-or-in-event-handler-directly-in-react
+- https://dev.to/kachiic/the-right-way-structure-your-react-router-1i3l
 
-**useReducer & Custom Hook for API**
+**useEffect, useReducer, & Custom Hook for API**
 - * https://react.dev/learn/extracting-state-logic-into-a-reducer
 - * https://dev.to/hey_yogini/usereducer-instead-of-usestate-while-calling-apis-3e1l
 - * https://medium.com/@nishchay.bhatta/so-you-use-useeffect-for-your-api-calls-68d956f0ecf3
+- https://dev.to/roy_kibata/fetching-api-data-in-react-evolving-beyond-useeffect-32m3
+- * https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal
+
 
 
 ## Future

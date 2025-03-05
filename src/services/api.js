@@ -18,10 +18,14 @@ import { useState, useEffect, useReducer } from "react";
 // https://scryfall.com/docs/syntax
 // https://en.wikipedia.org/wiki/Query_string
 // https://www.url-encode-decode.com/
+// https://publicapi.dev/scryfall-api
 ////////////////////////////////////////////////
 
 //////// API ////////
-const API_URL = `https://api.scryfall.com/cards/search?order=rarity&q=s%3A${set}+game%3Apaper+is%3Abooster`;
+// const API_URL = `https://api.scryfall.com/cards/search?order=rarity&q=s%3A${set}+game%3Apaper+is%3Abooster`;
+
+export const createApiUrl = (set) => 
+  `https://api.scryfall.com/cards/search?order=rarity&q=s%3A${set}+game%3Apaper+is%3Abooster`;
 
 
 ////// useEffect refactored into useReducer //////
@@ -79,7 +83,7 @@ export default function getData(API_URL) {
 
         dispatch({
           type: "CALL_SUCCESS",
-          payload: fetchedData.data.slice(0, 15), // temp solution for retrieving 15
+          payload: fetchedData.data.slice(0, 15) // temp solution for retrieving 15
         });
       } catch (error) {
         if (error.name !== "AbortError") {

@@ -3,30 +3,38 @@
 //// - Could the button pass down the API query?
 //// - Would that mean each button needs to be a route?
 
-import React from "react";
+import { React, useState } from "react";
+import { createApiUrl } from "../services/api.js"
+import Cards from "./Cards.jsx";
 import FDN_Pack from "../assets/packs/FDN_Pack.jpg";
 import HOU_Pack from "../assets/packs/HOU_Pack.jpg";
 import POR_Pack from "../assets/packs/POR_Pack.jpg";
 
+
 ///// Compoenent /////
-const PackItem = ({ image, packName }) => {
+const PackItem = ({ image, packSet, onPackSelection }) => {
   return (
     <div className="flex-pack">
-      <img src={image} className="pack" alt={`${packName} pack`} />
-      <button>Open Pack</button>
+      <img src={image} className="pack" alt={`${packSet} pack`} />
+      <button onClick={() => onPackSelection(packSet)}>Open Pack</button>
     </div>
   );
 };
 
-<div className="flex-container"></div>;
 
 ///// Packs Arr /////
 export default function Packs() {
+  const [selectedSet, setSelectedSet] = useState(null); // Unsure if good/helpful naming
+
   const packArrData = [
-    { image: POR_Pack, name: "Portal" },
-    { image: HOU_Pack, name: "Hour of Devastation" },
-    { image: FDN_Pack, name: "Foundations" },
+    { image: POR_Pack, set: "Portal" },
+    { image: HOU_Pack, set: "Hour of Devastation" },
+    { image: FDN_Pack, set: "Foundations" },
   ];
+
+  const handlePackSelection = (set) => {
+    setSelectedSet(set);
+  }
 
   return (
     <article>
@@ -34,26 +42,14 @@ export default function Packs() {
       <div className="flex-container">
         {packArrData.map((pack) => (
           <PackItem 
-            key={pack.name} 
+            key={pack.set} 
             image={pack.image} 
-            packName={pack.name} 
+            packSet={pack.set}
+            onPackSelection={handlePackSelection}
           />
         ))}
-
-        {/* <div className="flex-pack">
-          <a href="https://react.dev" target="_blank">
-            <img src={HOU_Pack} className="pack react" alt="React pack" />
-          </a>
-          <button>Open Pack</button>
-        </div>
-
-        <div className="flex-pack">
-          <a href="https://react.dev" target="_blank">
-            <img src={FDN_Pack} className="pack react" alt="React pack" />
-          </a>
-          <button>Open Pack</button>
-        </div> */}
       </div>
+      {selectedSet && <Cards set={selectedSet} />}
     </article>
   );
-}
+};
