@@ -16,7 +16,7 @@ function App() {
         <Packs />
         <Cards />
         <CardDetails />
-      </section> 
+      </section>
     </div>
   );
 }
