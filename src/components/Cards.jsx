@@ -38,7 +38,7 @@ const setTestURL =
 
 // Sample prop to pass: { set }
 export default function Cards() {
-  const {data, loading, error} = getData(setTestURL);
+  const {data, loading, error} = getData(API_URL);
   // const {data, loading, error} = getData(`/api/data/${set}`);
 
   if (loading) return <p>Loading...</p>

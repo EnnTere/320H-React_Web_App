@@ -1,133 +1,126 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 
 ////////////////////////////////////////////////
-//// Query Params
-// order=rarity+desc
-// s%3Afdn
-// s%3Ahou
-// s%3Apor
-// game%3Apaper
+//// URL Syntax
+// ? - start of a query string
+// & - separates k:v pairs
+// %<...> hexadecimal that translates into a special character
+
+//// Scryfall Query Params
+// order=rarity+desc - cards ordered by rarity
+// s%3Afdn - FDN set
+// s%3Ahou - HOU set
+// s%3Apor - POR set
+// game%3Apaper - paper only cards
 // is%3Abooster - only in boosters
 
-// URL Syntax
-// ? - start of a query String
-// w/in query string are k:v pairs separated by &s
-// %<...> hexadecimal
-
-//// Tool
+//// Sources & Tools
+// https://scryfall.com/docs/syntax
+// https://en.wikipedia.org/wiki/Query_string
 // https://www.url-encode-decode.com/
-
 ////////////////////////////////////////////////
 
 //////// API ////////
-const baseURL = "https://api.scryfall.com";
+const API_URL = `https://api.scryfall.com/cards/search?order=rarity&q=s%3A${set}+game%3Apaper+is%3Abooster`;
 
-//const API_URL = `https://api.scryfall.com/cards/search?order=rarity&q=s%3A${set}+game%3Apaper+is%3Abooster`
 
-const setTestURL =
-  "https://api.scryfall.com/cards/search?order=rarity&q=s%3Apor+game%3Apaper+is%3Abooster";
+////// useEffect refactored into useReducer //////
 
-export default function getData(setTestURL) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function dataReducer(state, action) {
+  switch (action.type) {
+    case "CALL_API": {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    }
+    case "CALL_SUCCESS": {
+      return {
+        ...state,
+        data: action.payload,
+        loading: false,
+      };
+    }
+    case "CALL_ERROR": {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+const initialState = {
+  data: [],
+  loading: true,
+  error: null,
+};
+
+// Trying out making a custom hook
+export default function getData(API_URL) {
+  const [state, dispatch] = useReducer(dataReducer, initialState);
 
   useEffect(() => {
     const controller = new AbortController();
-
-    setLoading(true);
+    // setLoading(true);
 
     const fetchData = async () => {
+      dispatch({
+        type: "CALL_API",
+      });
+
       try {
-        const response = await fetch(setTestURL, { signal: controller.signal });
-        const data = await response.json();
-        console.log(data.data.slice(0, 15));
-        setData(data.data.slice(0, 15)); // temp solution for retrieving 15
-        setData === data && setLoading(false);
+        const response = await fetch(API_URL, { signal: controller.signal });
+        const fetchedData = await response.json();
+
+        dispatch({
+          type: "CALL_SUCCESS",
+          payload: fetchedData.data.slice(0, 15), // temp solution for retrieving 15
+        });
       } catch (error) {
         if (error.name !== "AbortError") {
-          setError(error);
-          setLoading(false);
-          console.log(err.message);
+          dispatch({
+            type: "CALL_ERROR",
+            payload: error,
+          });
+          console.log(error.message);
         }
       }
     };
 
-    return () => controller.abort(); //Cleanup
-  }, [setTestURL]);
-  return { data, loading, error };
+    fetchData();
+
+    //Cleanup
+    return () => controller.abort();
+  }, [API_URL]);
+  return state;
 }
-
-//   try {
-//     const response = await fetch(setTestURL);
-//     const data = await response.json();
-//     console.log(data.data.slice(0, 15)); // temp solution for retrieving 15
-//     setCards(data.data.slice(0, 15));
-//   } catch (err) {
-//     console.log(err);
-//   }
-//   //return () => { // cleanup
-//   // response.disconnect
-//   //}
-// };
-// getData();
-
-
-
-
-// // GET
-// const [cards, setCards] = useState([]);
-
-// export const fetchCards = async () => {
-//   // let ignore = false;
-
-//   try {
-//     const response = await fetch(setTestURL);
-//     const data = await response.json();
-//     console.log(data.data.slice(0, 15));
-//     setCards(data.data.slice(0, 15)); // temp solution for retrieving 15
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-//   getData();
-//   fetchCards();
-
-//   //return () => {
-//     //ignore = true;
-//     // response.disconnect
-//   //} // cleanup
-// };
-
-
-
-
-// const actions = {
-//   CALL
-// }
 
 
 ////////////////////////////////
 
-// Working
+// Previous API Call
 
-  // GET
-  // useEffect(() => {
-  //   let ignore = false;
+// useEffect(() => {
+//   let ignore = false;
 
-  //   const fetchCards = async () => {
-  //     try {
-  //       const response = await fetch(setTestURL);
-  //       const data = await response.json();
-  //       console.log(data.data.slice(0, 15)); // temp solution for retrieving 15
-  //       setCards(data.data.slice(0, 15));
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //     return () => {
-  //     response.disconnect
-  //     } // cleanup
-  //     getData();
-  //   }
-  //   fetchCards();
-  // }, []);
+//   const fetchCards = async () => {
+//     try {
+//       const response = await fetch(setTestURL);
+//       const data = await response.json();
+//       console.log(data.data.slice(0, 15)); // temp solution for retrieving 15
+//       setCards(data.data.slice(0, 15));
+//     } catch (err) {
+//       console.log(err);
+//     }
+//     return () => {
+//     response.disconnect
+//     } // cleanup
+//     getData();
+//   }
+//   fetchCards();
+// }, []);
