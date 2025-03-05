@@ -1,32 +1,10 @@
 import { useState, useEffect, useReducer } from "react";
 
-////////////////////////////////////////////////
-//// URL Syntax
-// ? - start of a query string
-// & - separates k:v pairs
-// %<...> hexadecimal that translates into a special character
-
-//// Scryfall Query Params
-// order=rarity+desc - cards ordered by rarity
-// s%3Afdn - FDN set
-// s%3Ahou - HOU set
-// s%3Apor - POR set
-// game%3Apaper - paper only cards
-// is%3Abooster - only in boosters
-
-//// Sources & Tools
-// https://scryfall.com/docs/syntax
-// https://en.wikipedia.org/wiki/Query_string
-// https://www.url-encode-decode.com/
-// https://publicapi.dev/scryfall-api
-////////////////////////////////////////////////
-
 //////// API ////////
-// const API_URL = `https://api.scryfall.com/cards/search?order=rarity&q=s%3A${set}+game%3Apaper+is%3Abooster`;
 
-export const createApiUrl = (set) => 
+//// API fetches the data that corresponds with the selected pack's set
+export const createApiUrl = (set) =>
   `https://api.scryfall.com/cards/search?order=rarity&q=s%3A${set}+game%3Apaper+is%3Abooster`;
-
 
 ////// useEffect refactored into useReducer //////
 
@@ -64,13 +42,14 @@ const initialState = {
   error: null,
 };
 
-// Trying out making a custom hook
-export default function getData(API_URL) {
+//// Experimenting with making a custom hook
+export function getData(API_URL) {
   const [state, dispatch] = useReducer(dataReducer, initialState);
 
   useEffect(() => {
+    if (!API_URL) return;
+
     const controller = new AbortController();
-    // setLoading(true);
 
     const fetchData = async () => {
       dispatch({
@@ -83,7 +62,7 @@ export default function getData(API_URL) {
 
         dispatch({
           type: "CALL_SUCCESS",
-          payload: fetchedData.data.slice(0, 15) // temp solution for retrieving 15
+          payload: fetchedData.data.slice(0, 15), // temp hacky solution for retrieving 15
         });
       } catch (error) {
         if (error.name !== "AbortError") {
@@ -104,10 +83,9 @@ export default function getData(API_URL) {
   return state;
 }
 
+///////////////////////////////////////////////
 
-////////////////////////////////
-
-// Previous API Call
+//// Previous API Call w/ useEffect
 
 // useEffect(() => {
 //   let ignore = false;

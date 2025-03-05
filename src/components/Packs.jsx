@@ -21,7 +21,7 @@ export default function Packs() {
 
   const packArrData = [
     { image: POR_Pack, set: "Portal" },
-    { image: HOU_Pack, set: "Hour of Devastation" },
+    { image: HOU_Pack, set: "HourOfDevastation" },
     { image: FDN_Pack, set: "Foundations" },
   ];
 

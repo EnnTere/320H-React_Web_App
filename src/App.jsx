@@ -3,7 +3,7 @@ import "./App.css";
 
 import Packs from "./components/Packs";
 import Cards from "./components/Cards";
-import CardDetails from "./components/CardDetails";
+// import CardDetails from "./components/CardDetails";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -15,7 +15,8 @@ function App() {
 
         <Packs />
         <Cards />
-        <CardDetails />
+        {/* <CardDetails /> */}
+        <p>API Provider: <a href="https://scryfall.com/docs/api">Scryfall</a></p>
       </section>
     </div>
   );

@@ -1,4 +1,18 @@
+> [!IMPORTANT]
+> An error may be present when the page first renders, but all 3 buttons can fetch data without issue. Error remains at bottom of page even when data is successfully fetched.
+> `Pack Error: fetchedData.data is undefined` - Caused by line 11 in `Cards.jsx`
 
+
+# Application
+- **What:** Revising the 1st HTML/CSS assignment website
+- **How:** Prop used to pass info on pack selected by user down to API -> API URL uses prop to fetch corresponding data
+
+1. Pick a pack to open
+2. Pack selected passes prop to the cards component
+3. Cards component passes prop to dynamic URL
+4. Cards available in the packs selected are rendered
+  - Currently limited to the same first 15 for each pack
+5. All cards can be clicked on & will redirect the user to their corresponding page on Scryfall (creator of this API)
 
 
 ## Approach: React Thinking
@@ -22,11 +36,11 @@
     - Cleaned up the CSS slightly so it was easier to see all the components that were rendering.
 
 5. Determined which components should own what state
-  - At this point I wasn't sure what task to start on next because I had failed to priotize these later tasks. I refactored the Packs component, and then realized I wasn't prioritzing the assignment requirements. I then tried to add some additional functionality to useEffect and refactor it into useReducer.   
+  - At this point I wasn't sure what task to start on next because I had failed to prioritize these later tasks. I refactored the Packs component, and then realized I wasn't prioritizing the assignment requirements. I then tried to add some additional functionality to useEffect and refactor it into useReducer.   
 
-6. Added Inverse Data Flow?
-
-
+6. Added Inverse Data Flow
+  - Maybe the most challenging part to think through? Decided Pack component should manages the `set` state because the `set` property is only determined by which pack you open.
+    - Cards then receives the prop so it can fetch cards specific to the selected `set` 
 
 
 
@@ -51,7 +65,7 @@
 
 **Router**
 - https://reactrouter.com/tutorials/address-book & https://www.youtube.com/watch?v=pw8FAg07kdo
-  - Had implemented the changes to `main.jsx` and before I realized this was a remix specific resource. Left it to experiemnt with the change.
+  - Had implemented the changes to `main.jsx` and before I realized this was a remix specific resource. Left it to experiment with the change.
 
 
 **State**
@@ -74,12 +88,32 @@
 - https://dev.to/kachiic/the-right-way-structure-your-react-router-1i3l
 
 **useEffect, useReducer, & Custom Hook for API**
+*Note: Main resources for attempting to make custom hook*
 - * https://react.dev/learn/extracting-state-logic-into-a-reducer
 - * https://dev.to/hey_yogini/usereducer-instead-of-usestate-while-calling-apis-3e1l
 - * https://medium.com/@nishchay.bhatta/so-you-use-useeffect-for-your-api-calls-68d956f0ecf3
 - https://dev.to/roy_kibata/fetching-api-data-in-react-evolving-beyond-useeffect-32m3
 - * https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal
 
+**Translating URL Query Syntax <--> Scryfall Syntax**
+- URL Syntax
+  - ? - start of a query string
+  - & - separates k:v pairs
+  - %<...> hexadecimal that translates into a special character
+
+- Scryfall Query Params
+  - order=rarity+desc - cards ordered by rarity
+  - s%3Afdn - FDN set
+  - s%3Ahou - HOU set
+  - s%3Apor - POR set
+  - game%3Apaper - paper only cards
+  - is%3Abooster - only in boosters
+
+- Sources & Tools
+  - https://en.wikipedia.org/wiki/Query_string
+  - /https://www.url-encode-decode.com/
+  - /https://publicapi.dev/scryfall-api
+  - /https://scryfall.com/docs/syntax
 
 
 ## Future
