@@ -12,7 +12,7 @@
 // import viteLogo from "/vite.svg";
 
 import { useState, useEffect } from "react";
-// import createConnection from
+import getData from "../services/api.js";
 
 import FDN_Pack from "../assets/packs/FDN_Pack.jpg";
 import HOU_Pack from "../assets/packs/HOU_Pack.jpg";
@@ -27,21 +27,7 @@ const setTestURL =
 
 // [0-14]
 
-//// Query Params
-// order=rarity+desc
-// s%3Afdn
-// s%3Ahou
-// s%3Apor
-// game%3Apaper
-// is%3Abooster - only in boosters
 
-// URL Syntax
-// ? - start of a query String
-// w/in query string are k:v pairs separated by &s
-// %<...> hexadecimal
-
-//// Tool
-// https://www.url-encode-decode.com/
 
 // q=(game%3Apaper)+set%3Apor&unique=cards&as=grid
 // import hou-15-hour-of-revelation from "../assets/placeholderCards/hou-15-hour-of-revelation.jpg";
@@ -50,30 +36,42 @@ const setTestURL =
 // import hou-38-jace-s-defeat.jpg from "../assets/placeholderCards/hou-38-jace-s-defeat.jpg";
 // import hou-49-supreme-will from "../assets/placeholderCards/hou-49-supreme-will.jpg";
 
+// Sample prop to pass: { set }
 export default function Cards() {
-  const [cards, setCards] = useState([]);
+  const {data, loading, error} = getData(setTestURL);
+  // const {data, loading, error} = getData(`/api/data/${set}`);
 
-  // GET
-  useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const response = await fetch(setTestURL);
-        const data = await response.json();
-        console.log(data.data.slice(0, 15)); // temp solution for retrieving 15
-        setCards(data.data.slice(0, 15));
-      } catch (err) {
-        console.log(err);
-      }
-      //return () => {
-      // response.disconnect
-      //} // cleanup
-    };
-    fetchCards();
-  }, []);
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
+
+  //return <div>Data: {data}</div>;
+//};
+
+  // // GET
+  // useEffect(() => {
+  //   let ignore = false;
+
+  //   const fetchCards = async () => {
+  //     try {
+  //       const response = await fetch(setTestURL);
+  //       const data = await response.json();
+  //       console.log(data.data.slice(0, 15)); // temp solution for retrieving 15
+  //       setCards(data.data.slice(0, 15));
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //     return () => {
+  //     response.disconnect
+  //     } // cleanup
+  //     getData();
+  //   }
+  //   fetchCards();
+  // }, []);
 
   return (
     <article >
       <h2>Pack Contents</h2>
+      <div>Data: {data}</div>;
       <div className="flex-container">
         {cards.map((card) => {
           const {
